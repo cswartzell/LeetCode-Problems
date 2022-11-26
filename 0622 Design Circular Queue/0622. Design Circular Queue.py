@@ -1,3 +1,20 @@
+# 11-25-2022 LeetCode 622. Design Circular Queue
+#https://leetcode.com/problems/design-circular-queue/description/
+
+#I like it when the classes are a little more in-depth rarther than implementing
+#like a single spaghetti block function. Feels more real... but what do I know
+
+#pretty straightforward implementation of a ring buffer. Gets a little fiddly
+#with the indexing and making sure you arent off by one. I also go hung up for
+#a bit as I was trying to use the index positions themselves to note if a 
+#queue was full or empty, but if done as I have here, the head and tail
+#will both be at the same index in EITHER case, full or empty, with no simple
+#way to discern which. Now if you clear out the values or use a sentinel value
+#for emptied spaces I suppose youc could check this to distinguish the two states.
+#In the end I just opted to track the number of elements IN the buffer instead. 
+#In a real implementation, this could allow a quick and easy O(1) len() function
+#as well, at the cost of one measly int. Why not ALWAYS have this be the case?
+
 class MyCircularQueue:
     def __init__(self, k: int):
         self.q = [-1] * k
