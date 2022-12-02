@@ -41,9 +41,9 @@ from collections import Counter
 
 class Solution:
     def closeStrings(self, word1: str, word2: str) -> bool:
-        # w1c = Counter(word1)
-        # w2c = Counter(word2)
-        # return sorted(w1c.values()) == sorted(w2c.values()) and sorted(w1c.keys()) == sorted(w2c.keys())
+        w1c = Counter(word1)
+        w2c = Counter(word2)
+        return sorted(w1c.values()) == sorted(w2c.values()) and sorted(w1c.keys()) == sorted(w2c.keys())
 
         # Note: This is a dumb "one liner" as Im creating each counter twice. Maybe its holding on to them?
         return set(word1) == set(word2) and sorted(Counter(word1).values()) == sorted(
