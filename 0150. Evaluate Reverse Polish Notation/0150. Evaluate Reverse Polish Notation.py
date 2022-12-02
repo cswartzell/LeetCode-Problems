@@ -4,8 +4,8 @@
 # pretty straight forward stack problem
 # A tiny part of me wants to beceome an RPN evangelist, but
 # I know my hearts not in it and I wont become "fluent" in it
-# to do it as quickly. I love me too many parens anyhow.
 
+import collections
 
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
@@ -29,3 +29,6 @@ class Solution:
                     # Note: the // operator is same as floor(x/y) WHICH GETS THE NEXT
                     # LOWER NUMBER, meaning DOWN for negative. Not truncation
         return rp[0]
+
+        
+        boot = list(    Counter(   Counter(Counter(arr).values()).values()   ).keys()    ) == [1]
