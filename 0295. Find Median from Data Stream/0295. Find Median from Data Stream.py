@@ -85,11 +85,11 @@
 #         #Idea 2: Insertion sort? TLE still. Takes too long to search
 #         #and shift entire space to add new nums once n is large
 #         # self.num_list.append(num)
-#         # j = len(self.num_list) - 2
-#         # while j >= 0 and num < self.num_list[j] :
-#         #         self.num_list[j + 1] = self.num_list[j]
-#         #         j -= 1
-#         # self.num_list[j + 1] = num
+        j = len(self.num_list) - 2
+        while j >= 0 and num < self.num_list[j] :
+                self.num_list[j + 1] = self.num_list[j]
+                j -= 1
+        self.num_list[j + 1] = num
 
 #         #idea 3: Binary search to find intended position, use concatentation
 #         #of slices to reorder new list
