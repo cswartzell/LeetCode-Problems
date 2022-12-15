@@ -1,3 +1,16 @@
+#12-15-2022 Leetcode 1066. Campus Bikes II
+#https://leetcode.com/problems/campus-bikes-ii/description/
+
+#Can be done recursively, but that call stack... You DO need to calculate
+#ongoing choices for every combination of every bike and worker. 
+#There is NO WAY id be able to pull this off in an interview setting. 
+#Particularly not Djikstras method, and properly implementing the masking
+#situation. We use the number of set bits in the taken bikes mask to 
+#be the index of the next worker to be assigned? Absolutely wild. 
+#ABSURD that this is considered a medium difficulty problem
+
+
+
 
 #I think this can be solved by iterating a 2d DP array like the Solution#
 #for https://leetcode.com/problems/longest-common-subsequence/description/
