@@ -11,7 +11,8 @@
 # We COULD store only the shorter of the two to reduce space to
 # O(min(m,n)) but that would require two copies of the solution I think,
 # flipping the iteration. Not sure there is a supoer clever way around it
-a
+aasd
+
 
 class Solution:
     def findBlackPixel(self, picture: List[List[str]], target: int) -> int:
