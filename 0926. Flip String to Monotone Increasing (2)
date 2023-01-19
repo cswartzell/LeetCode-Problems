@@ -1,0 +1,15 @@
+# 01-16-2023 Leetcode 926. Flip String to Monotone Increasing
+# https://leetcode.com/problems/flip-string-to-monotone-increasing/
+
+class Solution:
+    def minFlipsMonoIncr(self, s: str) -> int:
+        num_zeros= sum(1 for c in s if c == '0')
+        ans = num_zeros
+        for c in s:
+            if c == '0':
+                num_zeros -= 1
+                ans = min(ans, num_zeros)
+            else:
+                num_zeros += 1
+        return ans 
+            
