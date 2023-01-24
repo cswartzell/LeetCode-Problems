@@ -1,0 +1,36 @@
+# 01-23-2023 Leetcode 997. Find the Town Judge
+# https://leetcode.com/problems/find-the-town-judge/description/
+
+#stupid 1 indexing
+
+#There is a logic error in the description. As stated, the problem says "If the judge exists, 
+#the following conditions are true" and then lists some simple rules. HOWEVER, the conditions being 
+#true DO NOT imply the existence of a judge. The rules can be true incidentally whether or not there 
+#is a judge; "If the judge exists" is the implication, the consequence happening to be true has 
+#no bearing on the truth of the premise.
+# As such, we can never be certain if there is a judge. We may be able to pick the only candidate if 
+#there happens to be a judge, but we don't know whether there is one. The only correct answer to this problem is:
+
+# return -1
+
+# Leetcode should change the problem to state "there is a judge IFF the following conditions are true"
+# This is a material implication and the antecedant has no bearing on the conditional. In programing terms, this would be like
+# if judge:
+#    if rule 1 and rule 2 for judge_id in citizens:
+#        return judge_id
+# but judge is undeclared, and we'd throw an error.
+
+class Solution:
+    def findJudge(self, n: int, trust: List[List[int]]) -> int:
+        i_trusted_by = collections.defaultdict(set)
+        i_trusts = collections.defaultdict(set)
+
+        for trustee, trusted in trust :
+            i_trusts[trustee].add(trusted)
+            i_trusted_by[trusted].add(trustee)
+
+        for i in range(1, n+1):
+            if len(i_trusts[i]) == 0 and len(i_trusted_by[i]) == n - 1:
+                return i
+
+        return -1
