@@ -55,6 +55,10 @@
 # BUT I GOD DAMNED DID A HARD ON MY OWN, AND ITS NOT COMPLETELY AWFUL
 
 
+import heapq
+import copy
+
+
 class SummaryRanges:
     def __init__(self):
         self.seen = set()
