@@ -11,7 +11,7 @@
 
 # Its simple just to use a counter and convert and count them. Useful to note that
 # there are only 45 possbile sums, 0+0+0+0+0...9+9+9+9+9. Not QUIET O(1)but given
-# contraints you can figure out the max
+# contraints you can figure out the max.
 
 
 class Solution:
