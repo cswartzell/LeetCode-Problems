@@ -1,0 +1,30 @@
+# 02-15-2023 Leetcode 104. Maximum Depth of Binary Tree
+# https://leetcode.com/problems/maximum-depth-of-binary-tree/description/
+
+#Wait, its BTree. We can do this with math. Oh... No right, we have
+#to parse the tree. Its not in array form. BFS I guess
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+            
+        next_level = [root]
+        curr_level = []
+        max_depth = 0
+        while next_level:
+            curr_level, next_level = next_level, []
+            max_depth += 1
+            while curr_level:
+                curr_node = curr_level.pop()
+                if curr_node.left:
+                    next_level.append(curr_node.left)
+                if curr_node.right:
+                    next_level.append(curr_node.right)
+        return max_depth
