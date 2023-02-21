@@ -1,0 +1,46 @@
+# 02-19-2023 Leetcode 540. Single Element in a Sorted Array
+# https://leetcode.com/problems/single-element-in-a-sorted-array/description/
+
+#So I think this is some sort of binary search the length of the array.
+#Any pairs are going to start with their first instance on an EVEN numbered index
+# as the first pair OUGHT to start at 0, with its second char at 1. This order gets
+#thrown off as soon as we encounter the singlet. The singlet is necesarily at an EVEN
+#index, and AFTER it, the pairs will start an odd and havew their second char at the next
+#even index. We can therefore use binary search and check the relative indecies of the
+#pairs/triplets around middle. Its both brilliant AND obnoxious
+
+#in practice, look at mid, There are like... 6 scenarios:
+#if mid is odd, and mid+1 matches mid char, then the singlet is to the left
+#if mid is odd and mid+1 DOESNT match, the singlet is to the right
+# OR mid IS the singlet
+#if mid is even and mid+1 matches mid char, then the singlet is to the right
+#if mid is even and mid+1 doesnt match mid char, singlet is to the left
+# OR mid IS singlet
+
+
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        l,r = 0, len(nums)-1
+        mid = int()
+        while l < r:
+            mid = l + (r-l)//2
+            if mid&1:       #odd
+                #I THINK we dont have to worry about mid being the last char, as the loop
+                #should have stopped on the while if that was true. Therefore, we can
+                #always check nums[mid+1] here without going OOB
+                if nums[mid] == nums[mid+1]:
+                    r = mid #might supposed to be mid-1... always get this confused
+                elif nums[mid] == nums[mid-1]:
+                    l = mid + 1
+                else:
+                    return nums[mid]
+            else:
+                if nums[mid] == nums[mid+1]:
+                    l = mid #might supposed to be mid-1... always get this confused
+                elif nums[mid] == nums[mid-1]:
+                    r = mid - 1
+                else:
+                    return nums[mid]
+        #pretty much guarentee this is wrong. I get lost in the sauce with binary search
+        #and usually have to consult a simple reference to avoid off by one errors
+        return nums[r]
