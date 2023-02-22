@@ -1,0 +1,63 @@
+# 02-21-2023Leetcode 468. Validate IP Address
+# https://leetcode.com/problems/validate-ip-address/description/
+
+# This is an EXCELENT problem for regex. Lets do that after
+# Surprisingly slow, but it works. I was checking for some pretty
+# tricksy inputs allowable by the rules: mixing delimiters, using
+# hex in ipv4 etc.
+
+# I could have minified this, but honestly I think this is good code: its READABLE
+# and "self documenting". You can see what each test is for on its own line.
+
+
+class Solution:
+    def validIPAddress(self, queryIP: str) -> str:
+        #     ipv4chars = ["0","1","2","3","4","5","6","7","8","9"]
+        #     ipv6chars = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","A","B","C","D","E","F"]
+
+        #     #So per the problem, the query could techincally be a busted string using both delimiters. Need to check
+        #     query_chars = set(queryIP)
+        #     if "." in query_chars and ":" not in query_chars:
+        #         parts = queryIP.split(".")
+        #     elif ":" in query_chars and "." not in query_chars:
+        #         parts = queryIP.split(":")
+        #     else:
+        #         return "Neither"
+
+        #     if len(parts) == 4:
+        #         for part in parts:
+        #             if (
+        #                 len(part) == 0
+        #                 or len(part) > 3
+        #                 or part[0] not in ipv4chars
+        #                 or (len(part) > 1 and (part[1] not in ipv4chars or part[0] == "0"))
+        #                 or (len(part) > 2 and part[2] not in ipv4chars)
+        #                 or int(part) > 255   #SHOUlD already be confirmed to be an int without leading zero, implying > 0
+        #             ):
+        #                 return "Neither"
+        #         return "IPv4"
+
+        #     elif len(parts) == 8:
+        #         for part in parts:
+        #             if (
+        #                 len(part) == 0
+        #                 or len(part) > 4
+        #                 or part[0] not in ipv6chars
+        #                 or (len(part) > 1 and part[1] not in ipv6chars)
+        #                 or (len(part) > 2 and part[2] not in ipv6chars)
+        #                 or (len(part) > 3 and part[3] not in ipv6chars)
+        #             ):
+        #                 return "Neither"
+        #         return "IPv6"
+        #     else:
+        #         return "Neither"
+
+        # LOLOLOL. Ok, so re.match() is apparently slow as shit. But hey! This looks great right? Totally legit re
+
+        ipv4_pattern = r"^([1][0-9][0-9]\.|[2][0-4][0-9]\.|[2][5][0-5]\.|[1-9][0-9]\.|[0-9]\.){3}([1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5]|[1-9][0-9]|[0-9])$"
+        if re.match(ipv4_pattern, queryIP):
+            return "IPv4"
+        ipv6_pattern = r"^(([0-9a-fA-F]{1,4}):){7}[0-9a-fA-F]{1,4}$"
+        if re.match(ipv6_pattern, queryIP):
+            return "IPv6"
+        return "Neither"
