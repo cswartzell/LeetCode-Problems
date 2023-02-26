@@ -1,131 +1,102 @@
-#Ok, so the reason to use a heap is that you ALWAYS want to be testing the max val
-#in your remaining list. You might get to what you think is the last value to test
-#and it turns out its even and can be divided by 2 and is suddenly your NEW
-#minimum value: now theres a bunch of intermediates that need to be retested.
-#You need to keep reiterating until the max value (after having"maximized' the odds)
-# IS odd, and thus cannot be reduced further. 
 
-nums = [10,4,3]
 
-#increase all the odds. Therefore the only possible option is reducing
-for i in range(len(nums)):
-    if nums[i]%2==1:
-        nums[i] *= 2
+#I wonder if i should store them all as tuples and include their original val
 
-nums.sort()
-nums_max = nums[-1]
-nums_min = nums[0]
+#Ok, so any odds have only two states: themeselves, and themsleves*2
+#I THINK the baseline is the HIGHEST odd number doesnt change. At least not at first
+ 
+#We need to find out if max odd is in our extant odds, or if one of the large evens is going
+# to be larger. We start by seperating the two into two sorted lists. If the last element of evens
+# is greater than twice the last element of odds, we know THAT will be break down to be our max odd
+
+#... but we dont asssume we want to break it? do we?
+
+from collections import deque
+
+class Solution:
+    def minimumDeviation(self, nums: List[int]) -> int:
+
+        # min_deviation = 10**9 + 1
+        # min_val = 10**9 + 1
+        # max_val = 0
+        # heap = []
+
+        # for i in range(len(nums)):
+        #     if nums[i] & 1:
+        #         heapq.heappush(heap, -(nums[i] * 2))
+        #         min_val = min(min_val, nums[i] * 2)
+        #     else: 
+        #         heapq.heappush(heap, -(nums[i]))
+        #         min_val = min(min_val, nums[i])
+
+        # while True:    
+        #     top = -1 * heapq.heappop(heap)
+        #     min_deviation = min( min_deviation, top - min_val)
+        #     if top & 1:
+        #         return min_deviation
+        #     else:
+        #         heapq.heappush(heap, top // -2)
+        #         min_val = min(min_val, top // 2)
         
-for i in range(len(nums)-1, 1, -1)
 
 
 
-# #BAH! Attempt two was close but again, it pretty hard to determine the target value. 
 
-# nums = [10,4,3]
-# nums.sort()
-# for x in nums:
-#     if x % 2 == 0:
-#         min_even = x
-#         break
 
-# for i in range(len(nums)):
-#     while nums[i] % 2 == 0 and nums[i]//2 > nums_min:
-#         nums[i] = nums[i] // 2
+        # # nums.sort()
+        # # moved = True
 
-# nums_max = max(nums)
+        # # while moved:
+        # #     moved = False
+        # #     if not nums[-1] & 1 and (
+        # #         (nums[-1] // 2) >= nums[0] or nums[-2] - (nums[-1]//2) < nums[-1] - nums[0]
+        # #     ):
+        # #         nums = sorted(nums[: len(nums) - 1] + [nums[-1] // 2])
+        # #         moved = True
+        # #     if nums[0] & 1 and (
+        # #         (nums[0] * 2) < nums[-1] or (nums[0] * 2) - nums[1] < nums[-1] - nums[0]
+        # #     ):
+        # #         nums = sorted(nums[1:] + [nums[0] * 2])
+        # #         moved = True
 
-# for i in range(len(nums)):
-#     if nums[i] % 2 == 1:
-#         if nums[i] < nums_min:
-#             nums_min = nums[i]
-#         if (abs((nums[i] * 2) - nums_max)) < abs((nums[i] - nums_max)):
-#             if (nums[i] * 2 <= nums_max) or nums[i] == nums_min: 
-#                 if nums[i] == nums_min:
-#                     nums_min = nums[i]*2
-#                 nums[i] *= 2
-#             if nums[i] > nums_max:
-#                 nums_max = nums[i]
-
-# dev = abs(nums_max - nums_min)
-# print(dev)
-
-# nums = [
-#     2,
-#     8,
-#     10,
-# ]
-# evens = []
-# odds = []
-# min_even = 10 ** 9 + 2
-# max_even = -2
-# min_odd = 10 ** 9 + 1
-# max_odd = -1
-
-# for x in nums:
-#     if x % 2 == 0:
-#         evens.append(x)
-#     else:
-#         odds.append(x)
-
-# odds.sort()
-# evens.sort()
-# if len(evens) - 1 > 0:
-#     max_even = evens[len(evens) - 1]
-# else:
-#     []
-# if len(evens) > 0:
-#     min_even = evens[0]
-# else:
-#     []
-# if len(odds) - 1 > 0:
-#     max_odd = odds[len(odds) - 1]
-# else:
-#     []
-# if len(odds) > 0:
-#     min_odd = odds[0]
-# else:
-#     []
-
-# for x in range(len(evens)):
-#     while evens[x] % 2 == 0 and abs((evens[x] // 2) - max_odd) <= abs(
-#         evens[x] - max_odd
-#     ):
-#         evens[x] = evens[x] // 2
-# max_even = max(evens)
-
-# for x in range(len(odds)):
-#     if (
-#         abs((odds[x] * 2) - max_odd) < abs((odds[x] - max_odd))
-#         and (odds[x] * 2) <= max_even
-#     ):
-#         odds[x] = odds[x] * 2
-
-# new_max = max(max(evens), max(odds))
-# new_min = min(min(evens), min(odds))
-# min_dev = abs(new_max - new_min)
-
-# print(min_dev)
+        # # return nums[-1] - nums[0]
 
 
 
-# AT PRESENT THIS IGNORES, OR WORSE, REQUIRES THERE BE AT LEAST ONE EVEN AND ONE ODD NUMBER
-# Ok, ive broken the logic on this by not seperating out the operations enough. I had the
-# right sort of idea: Evens can decrease, odds can only increase once. I got stuck
-# trying to identify a target FIRST than move things toward the target, but realized
-# the target may be moving, and determining it in the first place is difficult and
-# leaves out all sorts of obvious edge cases (all evens for instance).
-
-# Trying again by reducing all values to their minimum FIRST. This automactically
-# moves us towards a smaller deviation, AND makes ALL NUMBERS IN THIS SET ODD
-# The MAX of this new set will then just be the largest ODD number and should
-# DEFINITELY be the target. We then simply check if doubling each number in the set
-# decreases this deviation. We only need to check each number once as odds can only
-# # toggle between doubling/halving one step.
 
 
-# ugh, fine. Lets look at enumerate for this loop instead of for range len
-# Nope, I hate it. when returning the tuple i, x for enumerate(list),
-# the x value is merely a copy, so you cannot edit it directly for recomparison
-# in the loop. You have to resort to modifying list[i] anyhow, so x is only useful
-# if you are treating the list as immutable
+
+        # evens, odds = [], []
+        # max_odd = 0
+        # bottom = 500001
+        # top = 1
+        # for num in nums:
+        #     if num & 1:
+        #         odds.append(num)
+        #     else:
+        #         evens.append(num)
+        #         while not num & 1:
+        #             num >>= 1
+        #     bottom = min(bottom, num)
+        #     top = max(top, num)
+        #     max_odd = max( max_odd, num)
+        
+        # num_ops =0
+        # odds.sort()
+        # evens.sort()       
+
+        # threshold = (2/3) * max_odd
+        # for num in odds:
+        #     if num < b
+
+        # # num_ops = sum(1 for x in odds if x * 3/2 < max_odd)
+        # threshold = (4/3) * max_odd
+        # for num in evens:
+        #     while num > threshold:
+        #         num_ops += 1
+        #         num >>= 1
+        
+        # return num_ops
+
+
+        # # if 3/2*new_odd < max_odd //multiply small odd by 2
