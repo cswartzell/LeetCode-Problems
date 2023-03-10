@@ -28,7 +28,7 @@ class Solution:
 
     def getRandom(self) -> int:
         rando = random.randint(0, self.num_nodes - 1)
-        temp = self.head
+        temp = self.head 
         # if not temp:
         #     return -1
         for _ in range(rando):
