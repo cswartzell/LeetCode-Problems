@@ -1,0 +1,59 @@
+# 03-10-2023 Leetcode 825. Friends Of Appropriate Ages
+# https://leetcode.com/problems/friends-of-appropriate-ages/description/
+
+# DP? Some weird overlap here.
+# First of all, nobody under 14 will send any friend requests as say (12)/2 + 7 = 13
+# The minimum age a 12 year old can send a FR to has to be MORE than 13, but per
+# rule two nobody sends friend requests to anyone older than them.
+
+# Rule 3 isnt even necesary, as it is more than covered by rule 2 
+
+
+# (14)/2 + 7 = 14, so they too cannot send any requests as rule 1 is OVER this sum
+# (15)/2 + 7 = 14.5: 15 year olds can only FR other 15 year olds
+# (16)/2 + 7 = 15: 16 year olds can only FR other 16 year olds
+
+# So we push the top age up once, then push top and bottom age up together
+# keep a sliding window of people IN the window, and multiply that by the new top
+# number and add it to the total
+
+# Lets just start by manually adding the 15 YOs, add them to people in the list and 
+# I guess add num15YOs * (num15YOs - 1) to the total. Each one sends one to each other 15YO
+
+# Now set our L and R pointers, L = 15, R = 15, curr_people is the number of 15 YOS. 
+# iterate for each age up to and including 120
+
+# subtract age[L] from current people
+# Add 1 to L
+# Add 1 to R
+# Add to the total of FR: (aged[R] * (aged[R]-1)) + (aged[R] * curr_people)    
+# Add aged[R] to curr_people
+# Add 1 to R
+# Add to the total of FR: aged[R] * (aged[R]-1) + aged[R] * curr_people 
+# Add aged[R] to curr_people
+#REPEAT
+
+
+class Solution:
+    def numFriendRequests(self, ages: List[int]) -> int:
+        max_age = 0
+        aged = [0]*124
+        for age in ages:
+           aged[age] += 1
+           max_age = max( max_age, age)
+
+        L, R = 15, 15
+        curr_people = aged[15]
+        total_FR = aged[15] * (aged[15] - 1)
+
+        while R <= max_age + 1:
+            curr_people -= aged[L]
+            L += 1
+            R += 1
+            total_FR += aged[R] * (aged[R]-1) + aged[R] * curr_people
+            curr_people += aged[R]
+            R += 1
+            total_FR += aged[R] * (aged[R]-1) + aged[R] * curr_people
+            curr_people += aged[R]
+
+        return total_FR
