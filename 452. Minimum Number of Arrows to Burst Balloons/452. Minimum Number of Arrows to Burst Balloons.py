@@ -16,3 +16,4 @@ class Solution:
                 first_end = x_end
         
         return arrows
+    
