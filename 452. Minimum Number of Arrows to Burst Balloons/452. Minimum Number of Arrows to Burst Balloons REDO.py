@@ -23,6 +23,6 @@ class Solution:
             curr_left, curr_right = q_points.popleft()
             while q_points and q_points[NEXT_BALLOON][BALLOON_START] <= curr_right:
                 next_left, next_right = q_points.popleft()
-                curr_left = max(curr_left, next_left)
+                curr_left = next_left
                 curr_right = min(curr_right, next_right)
         return arrows
