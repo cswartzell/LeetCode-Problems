@@ -1,0 +1,33 @@
+# 2273. Find Resultant Array After Removing Anagrams
+# https://leetcode.com/problems/find-resultant-array-after-removing-anagrams/description/
+
+# Going to use a Counter, could of course roll my own frequency map using dic
+# or manually using a len(26) array and ord(ltr) - ord('a') for index if they
+# wanted to get real nitty gritty 
+
+# Instead of comparing them one by one, which, again is trivial (but O(n**2))
+# Im just going to dump the counters into a set so it hashes and dumps duplicates
+# then cast it back to a list. It SHOULD retain its order per 3.10 but maybe thats
+# just dicts? I feel like sets kinda dont in the debugger at least. 
+
+
+class Solution:
+    def removeAnagrams(self, words: List[str]) -> List[str]:
+        # wordq = collections.deque(words)
+        # ans = [wordq.popleft()]
+        
+        # # while wordq:
+        # #     curr_word = wordq.popleft()
+        # #     if collections.Counter(curr_word) != collections.Counter(ans[-1]):
+        # #         ans.append(curr_word)
+        
+        # # return ans
+        
+        # while wordq:
+        #     curr_word = wordq.popleft()
+        #     if sorted(curr_word) != sorted(ans[-1]):
+        #         ans.append(curr_word)
+        
+        # return ans
+
+        return [words[0]] + [words[i] for i in range(1, len(words)) if sorted(words[i]) != sorted(words[i-1])]
