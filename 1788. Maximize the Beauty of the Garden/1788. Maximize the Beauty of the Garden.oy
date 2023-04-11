@@ -1,0 +1,114 @@
+# 04-10-2023 Leetcode 1788. Maximize the Beauty of the Garden
+# https://leetcode.com/problems/maximize-the-beauty-of-the-garden/description/
+
+# Remove any negative flowers (weeds), as they can never help UNLESS
+# there are ONLY two matching vals and they have to be negative.
+# Ok, we COULD split this problem into two parts, but may not ned to
+# A) indentify our end flowers
+# B) weed all weeds
+
+# How to identify end flowers? There is the only negative pairs special case...
+# Ok, how about we take look at the ith flower on either end: and put them in a set
+# The first matching pair of POSITIVE numbers will be our ends. ALSO keep track of
+# the ALL matching nagative pairs. We only use the matching negatives if we never find
+# a positive pair match, and in  this case it gets complicated. Take this example:
+# [1,2,3,-100,5,-1,6,-1,5,-100,7,8]. The -100 would match first, but would be a terrible choice
+# giving us [-100,5,-1,6,-1,5,-100] when we could have picked [-1,6,-1].
+# SO! keep iterating in until we have a match of poisitves, OR until we get all the way to center
+# and know we must use a negative match. Store two dicts "found left" and found right: store the earliest
+# index of each found number from their respective sides. If the intersection of these is not empty, choose
+# the largest value from the intersection.
+
+# I think we can figure out the negative pair to keep by summing as we go. For each negative pair, start summing
+# as we move in from there. If the sum gets above the current negative pairs value BEFORE we find the next negative
+# pair, then we can stop. The positives inside it counter the need to keep looking. However, if we find a new
+# negative pair before this point, we can toss out all numbers TO this point, they wont matter
+
+#Whew! I think this does it
+
+class Solution:
+    def maximumBeauty(self, flowers: List[int]) -> int:
+        prefix_sums = {}
+        seen = {}
+        prefix_sum = 0
+        res = -(10**9 + 1)
+        for idx, flower in enumerate(flowers):
+            prefix_sum += max(flower, 0)
+            prefix_sums[idx] = prefix_sum
+
+            if flower not in seen:
+                seen[flower] = idx
+            else:
+                if flower < 0:
+                    sum_beauty = 2* flower + prefix_sum - prefix_sums[seen[flower]]
+                else:
+                    sum_beauty = flower + prefix_sum - prefix_sums[seen[flower]]
+                res = max(res, sum_beauty)
+        return res
+
+        #MADNESS BELOW
+
+        # i_from_L = collections.defaultdict(int)
+        # i_from_R = collections.defaultdict(int)
+        
+        # L_neg_sum, R_neg_sum = 0, 0
+        # neg_pair_L, neg_pair_R = None, None
+
+        # L_match_L, L_match_R, R_match_L, R_match_R = 0, 0, 0, 0
+        # bed_L, bed_R = None, None
+        
+        # L, R = 0, len(flowers)
+        # while L < R:
+        #     #First, add indexes to dict if new AND positive
+        #     if flowrs[L] not in i_from_L = {}:
+        #         flowrs[L] = L
+        #     if flowrs[R] not in i_from_R = {}:
+        #         flowrs[R] = R
+
+        #     #update neg counters if needed 
+        #     if neg_pair_L:
+        #         L_neg_sum += flowers[L]
+        #         R_neg_sum += flowers[R]
+        #         # We have collected more positive flowers since noting the previous neg
+        #         # pair so can stop and just use those as our outside. 
+        #         if L_neg_sum + R_neg_sum + flowers[neg_pair_L] + flowers[neg_pair_L] >= 0
+        #             bed_L, bed_R = neg_pair_L, neg_pair_R
+        #             break
+
+
+        #     ##################################################
+        #     #Found a negative match 
+        #     if (flowrs[L] < 0 and flowrs[L] in i_from_R) or (flowrs[R] > 0 and flowrs[R] in i_from_L):                
+        #         #First neg pair:
+        #         if not neg_pair_L:
+        #             #Jesus, BOTH are a pair.
+        #             if (flowrs[L] < 0 and flowrs[L] in i_from_R) and (flowrs[R] > 0 and flowrs[R] in i_from_L)
+        #                 if L_match_R - L_match_L == R_match_R - R_match_L:
+        #                     if R > L:
+        #                         bed_L, bed_R = R_match_L, R_match_R
+        #                     else:
+        #                         bed_L, bed_R = L_match_L, L_match_R
+            
+        #         neg_pair_L, neg_pair_R = L, i_from_R[L]
+        #     #Found a negative match on Right
+        #     if (flowrs[R] > 0 and flowrs[R] in i_from_L):
+        #         R_match_L, R_match_R = i_from_L[R], R
+        #     ########################################################
+
+
+        #     #Found a positive match on Left
+        #     if (flowrs[L] >= 0 and flowrs[L] in i_from_R):
+        #         L_match_L, L_match_R = L, i_from_R[L]
+        #     #Found a positive match on Right
+        #     if (flowrs[R] >= 0 and flowrs[R] in i_from_L):
+        #         R_match_L, R_match_R = i_from_L[R], R
+
+        #     #CONFLICTING MATCH OF POSITIVES
+        #     if L_match_L or R_match_L
+        #         #Uh oh, found both. Use larger positive match
+        #         if L_match_R - L_match_L == R_match_R - R_match_L:
+        #             if R > L:
+        #                 bed_L, bed_R = R_match_L, R_match_R
+        #             else:
+        #                 bed_L, bed_R = L_match_L, L_match_R
+        #         break
