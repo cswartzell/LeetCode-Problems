@@ -1,0 +1,78 @@
+# 07-11-2023 Leetcode 863. All Nodes Distance K in Binary Tree
+# https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/description/
+
+# Interesting. First, all nodes are unique so the target value is a specific node.
+# Lets assume recursion. progressing DOWN after finding the node and adding to 
+# a list is trivial. The tricky bit is everything that isnt a descendent of the
+# target node. We need to go back up and potentially reprocess branches we've 
+# seen before. Luckily I just failed to solve a different problem where the error
+# I got WAS exactly this! Simply keep a flag for found and have two methods of
+# processing nodes: one generic DFS for finding the node, and a second for processing
+# dependent on the distance from the target.
+
+# K can equal zero. Stupid case. 
+
+# WRONG. This will bounce back and forth. It passes a distance of 1 back to the parent of the target,
+            # but then the parent of the target passes this PLUS ONE back to the target, claiming the target is
+            # two away from the target. Clearly we get all sorts of weird bounce. we need to mark that we've
+            # seen the node at such and such distance. Maybe make its value negative and treat this as a marker
+            # for processed? A child will tell its parent "hey, I was X from the target, so you are X + 1", and
+            # we ONLY then want to process THE OTHER leg, knowing that the reporting leg is already done/working. 
+
+
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+        #Idiotic base case
+        if k == 0:
+            return [target.val]
+        
+        self.ans = []
+        
+        def DFS(node, dist_from_target):
+            if not node:
+                return 0
+
+            dist_on_left, dist_on_right = 0, 0
+
+            # Process nodes in generic DFS assuming we havent found the target
+            if not dist_from_target:
+                dist_on_left = DFS(node.left, 0)
+                dist_on_right = DFS(node.right, 0)
+            # Target found, start reprocessing nodes:
+            if node == target:
+                #Continue down
+                DFS(node.left, 1)
+                DFS(node.right, 1)
+                #Report to parent
+                return 1
+            
+            
+            # Curr node is k away from target, stop processing
+            if dist_from_target == k or dist_on_left == k or dist_on_right == k:
+                self.ans.append(node.val)
+            # Top down, target found but we arent k away: continue down
+            elif dist_from_target and dist_from_target < k:
+                DFS(node.left, dist_from_target + 1)
+                DFS(node.right, dist_from_target + 1)
+            # Target is below on left leg, reprocess right leg and move UP
+            elif dist_on_left and dist_on_left < k:
+                DFS(node.right, dist_on_left + 1)
+                return dist_on_left + 1
+            # Target is below on right leg, reprocess left leg and move UP
+            elif dist_on_right and dist_on_right < k:
+                DFS(node.left, dist_on_right + 1)
+                return dist_on_right + 1
+            
+
+        DFS(root, 0)
+        return self.ans
