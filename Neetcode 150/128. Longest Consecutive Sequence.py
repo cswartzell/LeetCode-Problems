@@ -1,6 +1,6 @@
 # 09-12-2023 Neetcode 128. Longest Consecutive Sequence
 # https://leetcode.com/problems/longest-consecutive-sequence/
-# Time:
+# Time: 75 Minutes
 
 # Bucket sort? Oh no, 2* 10**9 buckets. Seems like a lot
 # Maybe like a union-find?
