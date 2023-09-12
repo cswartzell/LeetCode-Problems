@@ -1,6 +1,6 @@
 # 09-12-2023 Neetcode 20. Valid Parentheses
 # https://leetcode.com/problems/valid-parentheses/description/
-# Time: 2 mins
+# Time: 2 minsa
 
 class Solution:
     def isValid(self, s: str) -> bool:
