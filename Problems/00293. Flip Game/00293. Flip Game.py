@@ -21,4 +21,4 @@ class Solution:
                 ans.append("".join(str_arr))
                 str_arr[i], str_arr[i+1] = "+", "+"
             i += 1
-        return ans
+         return ans
