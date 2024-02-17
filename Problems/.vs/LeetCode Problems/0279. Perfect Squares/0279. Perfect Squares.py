@@ -95,7 +95,7 @@ class Solution:
 #             # which would even provide a 5-times speedup, 200ms vs. 1000ms.
 #             next_queue = set()
 #             # construct the queue for the next level
-#             for remainder in queue:
+#             for remainder in queuet
 #                 for square_num in square_nums:    
 #                     if remainder == square_num:
 #                         return level  # find the node!
