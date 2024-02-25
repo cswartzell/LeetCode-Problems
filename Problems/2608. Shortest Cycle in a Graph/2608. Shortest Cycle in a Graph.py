@@ -33,4 +33,4 @@ class Solution:
                         min_cycle = min(min_cycle, dist[v] + dist[u] + 1)
 
         # If no cycle is found, return -1. Otherwise, return the minimum cycle length.
-        return min_cycle if min_cycle <= n else -1
+        return min_cycle if min_cycle <= n else -1+
