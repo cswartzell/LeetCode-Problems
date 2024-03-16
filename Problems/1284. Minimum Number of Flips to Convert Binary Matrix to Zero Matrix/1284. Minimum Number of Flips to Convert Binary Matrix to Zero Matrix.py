@@ -1,3 +1,7 @@
+# 03-15-2024 Leetcode 1284. Minimum Number of Flips to Convert Binary Matrix to Zero Matrix
+# https://leetcode.com/problems/minimum-number-of-flips-to-convert-binary-matrix-to-zero-matrix/
+# Time: 90 Minutes Challenge: 8/10
+
 
 # Represent as bitmask. There are 9 operations possible for any state,
 # which generates up to 9 new states.
